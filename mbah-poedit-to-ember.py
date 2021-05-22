@@ -1,4 +1,19 @@
+'''
+PURPOSE
+MBAH wish to provide translations for the files used by ember, like this one:
+https://github.com/manybabies/mbah-ember-lookit-frameplayer/blob/master/translations/en-us.yaml
+These files can be imported into our default translation tool, poeditor. But hierarchical structures get collapsed. So for example:
+    exp-lookit-exit-survey:
+        confirm-birthdate: Please confirm your child's birthdate
+        why-birthdate: We ask again just to check for typos during registration or accidental selection of a different child at the start of the study.
+becomes
+    exp-lookit-exit-survey.confirm-birthdate: Please confirm your child's birthdate
+    exp-lookit-exit-survey.why-birthdate: We ask again just to check for typos during registration or accidental selection of a different child at the start of the study.
 
+This code converts the latter format back into the former. It requires that there are not "." in the original yaml keys.
+
+Rhodri Cusack Trinity College Dublin 2021-05-22
+'''
 import yaml
 import polib
 from os import path
