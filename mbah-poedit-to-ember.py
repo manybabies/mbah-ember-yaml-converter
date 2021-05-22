@@ -18,27 +18,29 @@ import yaml
 import polib
 from os import path
 
-# Location of yaml files on filesystem
-git_mbah_elf_path='/home/cusackrh/repos/mbah-ember-lookit-frameplayer/translations'
+# Location of yaml files exported from poedit
 poeditor_path='export_from_poeditor'
+# Location of ember framekit translations folder
+git_mbah_elf_path='/home/cusackrh/repos/mbah-ember-lookit-frameplayer/translations'
 
+# List of languages
 dest_lang=['pt']
 
 for lang in dest_lang:
     with open(path.join(poeditor_path,f'{lang}.yml')) as f:
-        yml = yaml.load(f)
-        
+        ymlin = yaml.load(f)
         ymlout = {}
-
-        for key, val in yml.items():
-            fields = key.split('.')
+        for key, val in ymlin.items():
+            fields = key.split('.') # assumes no '.' within original yaml keys
+            # create/navigate into hierarchical dict where multiple fields
             el = ymlout
             for field in fields[:-1]:
                 if not field in el:
                     el[field] = {}
                 el=el[field]
+            # set destination key at leaf node of hierarchy
             el[fields[-1]] = val
-        
+    # Write out
     with open(path.join(git_mbah_elf_path,f'{lang}.yaml'),'w') as f:
         yaml.dump(ymlout, f, allow_unicode=True)
 
